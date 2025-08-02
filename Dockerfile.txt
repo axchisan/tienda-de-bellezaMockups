@@ -7,14 +7,12 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Instalar dependencias basadas en el gestor de paquetes preferido
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --no-frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# Copiar archivos de dependencias
+COPY package.json ./
+# Generar package-lock.json si no existe
+RUN npm install --package-lock-only
+# Instalar dependencias
+RUN npm ci --only=production
 
 # Reconstruir el código fuente solo cuando sea necesario
 FROM base AS builder
@@ -25,6 +23,9 @@ COPY . .
 # Variables de entorno para el build
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
+
+# Instalar todas las dependencias (incluyendo devDependencies)
+RUN npm install
 
 # Construir la aplicación
 RUN npm run build
@@ -40,7 +41,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copiar archivos necesarios
+# Copiar archivos públicos
 COPY --from=builder /app/public ./public
 
 # Crear directorio .next con permisos correctos

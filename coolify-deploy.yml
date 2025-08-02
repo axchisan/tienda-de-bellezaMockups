@@ -1,4 +1,3 @@
-# Configuración para Coolify
 version: '3.8'
 
 services:
