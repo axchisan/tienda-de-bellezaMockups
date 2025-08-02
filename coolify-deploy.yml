@@ -1,0 +1,31 @@
+# Configuración para Coolify
+version: '3.8'
+
+services:
+  beauty-store:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beauty-store-production
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+    labels:
+      - "coolify.managed=true"
+      - "coolify.version=1.0.0"
+      - "coolify.name=beauty-store"
+      - "coolify.description=E-commerce de productos de belleza"
+    networks:
+      - coolify
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  coolify:
+    external: true
