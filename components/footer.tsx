@@ -3,16 +3,16 @@ import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "luci
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-slate-900 text-white overflow-hidden">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-slate-900 font-bold text-lg">B</span>
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-xl font-semibold">BellezaStore</h3>
                 <p className="text-sm text-slate-400">Productos Premium de Belleza</p>
               </div>
@@ -106,15 +106,15 @@ export function Footer() {
             <h4 className="text-lg font-semibold">Contacto</h4>
             <div className="space-y-3 text-sm">
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-slate-400" />
+                <Phone className="h-4 w-4 text-slate-400 flex-shrink-0" />
                 <span className="text-slate-300">+57 (1) 234-5678</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-slate-400" />
-                <span className="text-slate-300">hola@bellezastore.co</span>
+                <Mail className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                <span className="text-slate-300 break-all">hola@bellezastore.co</span>
               </div>
               <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-slate-400" />
+                <MapPin className="h-4 w-4 text-slate-400 flex-shrink-0" />
                 <span className="text-slate-300">Bogotá, Colombia</span>
               </div>
             </div>
@@ -131,23 +131,25 @@ export function Footer() {
         </div>
 
         <div className="border-t border-slate-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-slate-400">© 2024 BellezaStore. Todos los derechos reservados.</p>
-            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-slate-400 text-center md:text-left">
+              © 2024 BellezaStore. Todos los derechos reservados.
+            </p>
+            <div className="flex items-center space-x-6">
               <img
                 src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=50&h=30&fit=crop"
                 alt="Visa"
-                className="h-6 opacity-70"
+                className="h-6 opacity-70 max-w-full"
               />
               <img
                 src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=50&h=30&fit=crop"
                 alt="Mastercard"
-                className="h-6 opacity-70"
+                className="h-6 opacity-70 max-w-full"
               />
               <img
                 src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=50&h=30&fit=crop"
                 alt="PSE"
-                className="h-6 opacity-70"
+                className="h-6 opacity-70 max-w-full"
               />
             </div>
           </div>

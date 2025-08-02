@@ -216,7 +216,7 @@ export default function ProductsPage() {
   }, [searchQuery, selectedCategories, selectedBrands, priceRange, sortBy])
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <Header />
 
       <div className="container mx-auto px-4 py-8">
@@ -224,9 +224,9 @@ export default function ProductsPage() {
           {/* Filters Sidebar */}
           <div className="lg:w-1/4">
             <Card className="sticky top-24 border-0">
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-semibold text-slate-900">Filtros</h2>
+                  <h2 className="text-lg sm:text-xl font-semibold text-slate-900">Filtros</h2>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -236,6 +236,7 @@ export default function ProductsPage() {
                       setPriceRange([0, 200000])
                       setSearchQuery("")
                     }}
+                    className="text-xs sm:text-sm"
                   >
                     Limpiar Todo
                   </Button>
@@ -249,7 +250,7 @@ export default function ProductsPage() {
                       placeholder="Buscar productos..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-4 py-2 pl-10 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      className="w-full px-4 py-2 pl-10 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm"
                     />
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                   </div>
@@ -258,7 +259,7 @@ export default function ProductsPage() {
                 <Accordion type="multiple" defaultValue={["categories", "brands", "price"]}>
                   {/* Categories */}
                   <AccordionItem value="categories">
-                    <AccordionTrigger className="text-slate-900">Categorías</AccordionTrigger>
+                    <AccordionTrigger className="text-slate-900 text-sm sm:text-base">Categorías</AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-3">
                         {categories.map((category) => (
@@ -268,7 +269,10 @@ export default function ProductsPage() {
                               checked={selectedCategories.includes(category)}
                               onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
                             />
-                            <label htmlFor={category} className="text-sm cursor-pointer text-slate-700">
+                            <label
+                              htmlFor={category}
+                              className="text-xs sm:text-sm cursor-pointer text-slate-700 leading-tight"
+                            >
                               {category}
                             </label>
                           </div>
@@ -279,7 +283,7 @@ export default function ProductsPage() {
 
                   {/* Brands */}
                   <AccordionItem value="brands">
-                    <AccordionTrigger className="text-slate-900">Marcas</AccordionTrigger>
+                    <AccordionTrigger className="text-slate-900 text-sm sm:text-base">Marcas</AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-3">
                         {brands.map((brand) => (
@@ -289,7 +293,7 @@ export default function ProductsPage() {
                               checked={selectedBrands.includes(brand)}
                               onCheckedChange={(checked) => handleBrandChange(brand, checked as boolean)}
                             />
-                            <label htmlFor={brand} className="text-sm cursor-pointer text-slate-700">
+                            <label htmlFor={brand} className="text-xs sm:text-sm cursor-pointer text-slate-700">
                               {brand}
                             </label>
                           </div>
@@ -300,7 +304,7 @@ export default function ProductsPage() {
 
                   {/* Price Range */}
                   <AccordionItem value="price">
-                    <AccordionTrigger className="text-slate-900">Rango de Precio</AccordionTrigger>
+                    <AccordionTrigger className="text-slate-900 text-sm sm:text-base">Rango de Precio</AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-4">
                         <Slider
@@ -310,7 +314,7 @@ export default function ProductsPage() {
                           step={5000}
                           className="w-full"
                         />
-                        <div className="flex justify-between text-sm text-slate-600">
+                        <div className="flex justify-between text-xs sm:text-sm text-slate-600">
                           <span>{formatPrice(priceRange[0])}</span>
                           <span>{formatPrice(priceRange[1])}</span>
                         </div>
@@ -327,14 +331,14 @@ export default function ProductsPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
               <div>
-                <h1 className="text-3xl font-light text-slate-900 mb-2">Productos de Belleza</h1>
-                <p className="text-slate-600">{filteredProducts.length} productos encontrados</p>
+                <h1 className="text-2xl sm:text-3xl font-light text-slate-900 mb-2">Productos de Belleza</h1>
+                <p className="text-slate-600 text-sm sm:text-base">{filteredProducts.length} productos encontrados</p>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 w-full sm:w-auto">
                 {/* Sort */}
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-48 border-slate-200">
+                  <SelectTrigger className="w-full sm:w-48 border-slate-200 text-sm">
                     <SelectValue placeholder="Ordenar por" />
                   </SelectTrigger>
                   <SelectContent>
@@ -352,7 +356,7 @@ export default function ProductsPage() {
                     variant={viewMode === "grid" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setViewMode("grid")}
-                    className={`rounded-r-none ${viewMode === "grid" ? "bg-slate-900 text-white" : ""}`}
+                    className={`rounded-r-none p-2 ${viewMode === "grid" ? "bg-slate-900 text-white" : ""}`}
                   >
                     <Grid3X3 className="h-4 w-4" />
                   </Button>
@@ -360,7 +364,7 @@ export default function ProductsPage() {
                     variant={viewMode === "list" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setViewMode("list")}
-                    className={`rounded-l-none ${viewMode === "list" ? "bg-slate-900 text-white" : ""}`}
+                    className={`rounded-l-none p-2 ${viewMode === "list" ? "bg-slate-900 text-white" : ""}`}
                   >
                     <List className="h-4 w-4" />
                   </Button>
@@ -387,20 +391,24 @@ export default function ProductsPage() {
                 </Button>
               </div>
             ) : (
-              <div className={viewMode === "grid" ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
+              <div
+                className={
+                  viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6" : "space-y-4"
+                }
+              >
                 {filteredProducts.map((product) => (
                   <Card
                     key={product.id}
                     className={`group hover:shadow-xl transition-all duration-300 overflow-hidden border-0 ${
-                      viewMode === "list" ? "flex" : ""
+                      viewMode === "list" ? "flex flex-col sm:flex-row" : ""
                     }`}
                   >
-                    <div className={`relative ${viewMode === "list" ? "w-48 flex-shrink-0" : ""}`}>
+                    <div className={`relative ${viewMode === "list" ? "w-full sm:w-48 flex-shrink-0" : ""}`}>
                       <img
                         src={product.image || "/placeholder.svg"}
                         alt={product.name}
-                        className={`object-cover group-hover:scale-105 transition-transform duration-300 ${
-                          viewMode === "list" ? "w-full h-full" : "w-full h-64"
+                        className={`object-cover group-hover:scale-105 transition-transform duration-300 max-w-full ${
+                          viewMode === "list" ? "w-full h-48 sm:h-full" : "w-full h-48 sm:h-64"
                         }`}
                       />
                       <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -413,7 +421,7 @@ export default function ProductsPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="absolute top-4 right-4 bg-white/90 hover:bg-white shadow-sm"
+                        className="absolute top-4 right-4 bg-white/90 hover:bg-white shadow-sm p-2"
                         onClick={() => toggleWishlist(product.id)}
                       >
                         <Heart
@@ -422,12 +430,14 @@ export default function ProductsPage() {
                       </Button>
                     </div>
 
-                    <CardContent className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}>
-                      <div className="space-y-4">
+                    <CardContent className={`p-4 sm:p-6 ${viewMode === "list" ? "flex-1" : ""}`}>
+                      <div className="space-y-3 sm:space-y-4">
                         <div>
                           <p className="text-sm text-slate-500 mb-1">{product.category}</p>
-                          <h3 className="font-semibold text-slate-900 line-clamp-2">{product.name}</h3>
-                          <p className="text-sm text-slate-600 mt-1">por {product.brand}</p>
+                          <h3 className="font-semibold text-slate-900 line-clamp-2 text-sm sm:text-base">
+                            {product.name}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-slate-600 mt-1">por {product.brand}</p>
                           <p className="text-xs text-slate-500">Vendido por: {product.seller}</p>
                         </div>
 
@@ -436,18 +446,20 @@ export default function ProductsPage() {
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`h-4 w-4 ${i < Math.floor(product.rating) ? "fill-slate-400 text-slate-400" : "text-slate-200"}`}
+                                className={`h-3 w-3 sm:h-4 sm:w-4 ${i < Math.floor(product.rating) ? "fill-slate-400 text-slate-400" : "text-slate-200"}`}
                               />
                             ))}
                           </div>
-                          <span className="text-sm text-slate-600">({product.reviews})</span>
+                          <span className="text-xs sm:text-sm text-slate-600">({product.reviews})</span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xl font-semibold text-slate-900">{formatPrice(product.price)}</span>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-lg sm:text-xl font-semibold text-slate-900 truncate">
+                              {formatPrice(product.price)}
+                            </span>
                             {product.originalPrice && (
-                              <span className="text-sm text-slate-500 line-through">
+                              <span className="text-xs sm:text-sm text-slate-500 line-through">
                                 {formatPrice(product.originalPrice)}
                               </span>
                             )}
@@ -458,12 +470,12 @@ export default function ProductsPage() {
                           <Link href={`/product/${product.id}`} className="flex-1">
                             <Button
                               variant="outline"
-                              className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 bg-transparent"
+                              className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 bg-transparent text-xs sm:text-sm"
                             >
                               Ver Detalles
                             </Button>
                           </Link>
-                          <Button className="bg-slate-900 hover:bg-slate-800 text-white">
+                          <Button className="bg-slate-900 hover:bg-slate-800 text-white p-2 sm:px-4">
                             <ShoppingCart className="h-4 w-4" />
                           </Button>
                         </div>

@@ -89,7 +89,7 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 overflow-x-hidden">
         <Header />
         <div className="container mx-auto px-4 py-16">
           <div className="text-center max-w-md mx-auto">
@@ -107,19 +107,21 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
           <Link href="/products">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Seguir Comprando
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Carrito de Compras ({cartItems.length} productos)</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            Carrito de Compras ({cartItems.length} productos)
+          </h1>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -127,13 +129,13 @@ export default function CartPage() {
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
               <Card key={item.id}>
-                <CardContent className="p-6">
-                  <div className="flex gap-4">
-                    <div className="relative">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="relative flex-shrink-0 w-full sm:w-24">
                       <img
                         src={item.image || "/placeholder.svg"}
                         alt={item.name}
-                        className="w-24 h-24 object-cover rounded-lg"
+                        className="w-full sm:w-24 h-24 object-cover rounded-lg max-w-full"
                       />
                       {!item.inStock && (
                         <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
@@ -142,11 +144,11 @@ export default function CartPage() {
                       )}
                     </div>
 
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-semibold text-gray-900 line-clamp-2">{item.name}</h3>
-                          <p className="text-sm text-gray-600">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-semibold text-gray-900 line-clamp-2 text-sm sm:text-base">{item.name}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600">
                             {item.brand} • {item.category}
                           </p>
                           <p className="text-xs text-gray-500">Vendido por: {item.seller}</p>
@@ -155,13 +157,13 @@ export default function CartPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => removeItem(item.id)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold text-gray-900">{formatPrice(item.price * 100)}</span>
                           {item.originalPrice && (
@@ -173,7 +175,7 @@ export default function CartPage() {
 
                         <div className="flex items-center gap-3">
                           {!item.inStock && (
-                            <Badge variant="destructive" className="mr-2">
+                            <Badge variant="destructive" className="mr-2 text-xs">
                               Agotado
                             </Badge>
                           )}
@@ -183,15 +185,17 @@ export default function CartPage() {
                               size="sm"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               disabled={!item.inStock}
+                              className="p-2"
                             >
                               <Minus className="h-4 w-4" />
                             </Button>
-                            <span className="px-4 py-2 text-center min-w-[60px]">{item.quantity}</span>
+                            <span className="px-3 py-2 text-center min-w-[50px] text-sm">{item.quantity}</span>
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               disabled={!item.inStock}
+                              className="p-2"
                             >
                               <Plus className="h-4 w-4" />
                             </Button>
@@ -215,8 +219,8 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-6">Resumen del Pedido</h2>
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-semibold mb-6">Resumen del Pedido</h2>
 
                 {/* Promo Code */}
                 <div className="mb-6">
@@ -226,9 +230,14 @@ export default function CartPage() {
                       placeholder="Código promocional"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm min-w-0"
                     />
-                    <Button variant="outline" onClick={applyPromoCode} disabled={!promoCode}>
+                    <Button
+                      variant="outline"
+                      onClick={applyPromoCode}
+                      disabled={!promoCode}
+                      className="p-2 bg-transparent"
+                    >
                       <Percent className="h-4 w-4" />
                     </Button>
                   </div>
@@ -242,26 +251,26 @@ export default function CartPage() {
 
                 {/* Price Breakdown */}
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-sm">
                     <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} productos)</span>
                     <span>{formatPrice(subtotal * 100)}</span>
                   </div>
 
                   {savings > 0 && (
-                    <div className="flex justify-between text-green-600">
+                    <div className="flex justify-between text-green-600 text-sm">
                       <span>Ahorros</span>
                       <span>-{formatPrice(savings * 100)}</span>
                     </div>
                   )}
 
                   {appliedPromo && (
-                    <div className="flex justify-between text-green-600">
+                    <div className="flex justify-between text-green-600 text-sm">
                       <span>Descuento promocional</span>
                       <span>-{formatPrice(promoDiscount * 100)}</span>
                     </div>
                   )}
 
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-sm">
                     <span>Envío</span>
                     <span className={shipping === 0 ? "text-green-600" : ""}>
                       {shipping === 0 ? "Gratis" : `${formatPrice(shipping * 100)}`}
@@ -272,7 +281,7 @@ export default function CartPage() {
                 </div>
 
                 <div className="border-t pt-4 mb-6">
-                  <div className="flex justify-between text-xl font-bold">
+                  <div className="flex justify-between text-lg sm:text-xl font-bold">
                     <span>Total</span>
                     <span>{formatPrice(total * 100)}</span>
                   </div>
@@ -281,7 +290,7 @@ export default function CartPage() {
                 <div className="space-y-3">
                   <Link href="/checkout">
                     <Button
-                      className="w-full bg-rose-500 hover:bg-rose-600 py-3"
+                      className="w-full bg-rose-500 hover:bg-rose-600 py-3 text-sm sm:text-base"
                       disabled={cartItems.some((item) => !item.inStock)}
                     >
                       Proceder al Checkout
@@ -289,7 +298,7 @@ export default function CartPage() {
                   </Link>
 
                   <Link href="/products">
-                    <Button variant="outline" className="w-full bg-transparent">
+                    <Button variant="outline" className="w-full bg-transparent text-sm sm:text-base">
                       Continuar Comprando
                     </Button>
                   </Link>

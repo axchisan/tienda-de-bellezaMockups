@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 overflow-x-hidden">
       <Header />
 
       <div className="container mx-auto px-4 py-16">
@@ -23,15 +23,15 @@ export default function LoginPage() {
               <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <User className="h-8 w-8 text-white" />
               </div>
-              <CardTitle className="text-2xl font-bold text-gray-900">
+              <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900">
                 {isLogin ? "Iniciar Sesión" : "Crear Cuenta"}
               </CardTitle>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm sm:text-base">
                 {isLogin ? "Accede a tu cuenta de BellezaStore" : "Únete a la comunidad de belleza"}
               </p>
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 p-4 sm:p-6">
               <form className="space-y-4">
                 {!isLogin && (
                   <div>
@@ -40,7 +40,7 @@ export default function LoginPage() {
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                       <input
                         type="text"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-sm"
                         placeholder="Tu nombre completo"
                       />
                     </div>
@@ -53,7 +53,7 @@ export default function LoginPage() {
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                     <input
                       type="email"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-sm"
                       placeholder="tu@email.com"
                     />
                   </div>
@@ -65,7 +65,7 @@ export default function LoginPage() {
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-sm"
                       placeholder="Tu contraseña"
                     />
                     <button
@@ -85,7 +85,7 @@ export default function LoginPage() {
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                       <input
                         type="password"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-sm"
                         placeholder="Confirma tu contraseña"
                       />
                     </div>
@@ -119,12 +119,12 @@ export default function LoginPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="w-full bg-transparent">
-                  <img src="/placeholder.svg?height=20&width=20" alt="Google" className="w-5 h-5 mr-2" />
+                <Button variant="outline" className="w-full bg-transparent text-sm">
+                  <img src="/placeholder.svg?height=20&width=20" alt="Google" className="w-5 h-5 mr-2 max-w-full" />
                   Google
                 </Button>
-                <Button variant="outline" className="w-full bg-transparent">
-                  <img src="/placeholder.svg?height=20&width=20" alt="Facebook" className="w-5 h-5 mr-2" />
+                <Button variant="outline" className="w-full bg-transparent text-sm">
+                  <img src="/placeholder.svg?height=20&width=20" alt="Facebook" className="w-5 h-5 mr-2 max-w-full" />
                   Facebook
                 </Button>
               </div>
