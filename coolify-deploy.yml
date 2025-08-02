@@ -6,26 +6,22 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: beauty-store-production
+    container_name: beauty-store-app
     restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
       - PORT=3000
-    labels:
-      - "coolify.managed=true"
-      - "coolify.version=1.0.0"
-      - "coolify.name=beauty-store"
-      - "coolify.description=E-commerce de productos de belleza"
-    networks:
-      - coolify
+      - HOSTNAME=0.0.0.0
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-networks:
-  coolify:
-    external: true
+    labels:
+      - "coolify.managed=true"
+      - "coolify.version=4"
+      - "coolify.type=application"

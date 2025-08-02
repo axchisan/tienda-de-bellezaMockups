@@ -1,51 +1,76 @@
 #!/bin/bash
 
-# Script de despliegue para Contabo + Coolify
+# Script de despliegue para Beauty Store
 echo "🚀 Iniciando despliegue de Beauty Store..."
 
-# Verificar que Docker esté instalado
+# Colores para output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Función para logging
+log() {
+    echo -e "${GREEN}[$(date +'%Y-%m-%d %H:%M:%S')] $1${NC}"
+}
+
+error() {
+    echo -e "${RED}[ERROR] $1${NC}"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING] $1${NC}"
+}
+
+# Verificar si Docker está instalado
 if ! command -v docker &> /dev/null; then
-    echo "❌ Docker no está instalado"
+    error "Docker no está instalado. Por favor instala Docker primero."
     exit 1
 fi
 
-# Verificar que docker-compose esté instalado
+# Verificar si Docker Compose está instalado
 if ! command -v docker-compose &> /dev/null; then
-    echo "❌ Docker Compose no está instalado"
-    exit 1
-fi
-
-# Construir la imagen
-echo "🔨 Construyendo imagen Docker..."
-docker build -t beauty-store:latest .
-
-# Verificar que la construcción fue exitosa
-if [ $? -eq 0 ]; then
-    echo "✅ Imagen construida exitosamente"
-else
-    echo "❌ Error al construir la imagen"
+    error "Docker Compose no está instalado. Por favor instala Docker Compose primero."
     exit 1
 fi
 
 # Detener contenedores existentes
-echo "🛑 Deteniendo contenedores existentes..."
-docker-compose down
+log "Deteniendo contenedores existentes..."
+docker-compose down --remove-orphans
 
-# Iniciar los servicios
-echo "🚀 Iniciando servicios..."
-docker-compose up -d
+# Limpiar imágenes antiguas (opcional)
+read -p "¿Deseas limpiar imágenes Docker antiguas? (y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    log "Limpiando imágenes antiguas..."
+    docker system prune -f
+    docker image prune -f
+fi
 
-# Verificar que los servicios estén corriendo
-echo "🔍 Verificando servicios..."
+# Construir y ejecutar
+log "Construyendo y ejecutando la aplicación..."
+docker-compose up --build -d
+
+# Verificar que los contenedores estén corriendo
+log "Verificando estado de los contenedores..."
 sleep 10
 
 if docker-compose ps | grep -q "Up"; then
-    echo "✅ Servicios iniciados correctamente"
-    echo "🌐 La aplicación está disponible en http://localhost:3000"
+    log "✅ Despliegue exitoso!"
+    log "La aplicación está disponible en:"
+    log "  - HTTP: http://localhost"
+    log "  - Aplicación directa: http://localhost:3000"
+    
+    # Mostrar logs en tiempo real
+    read -p "¿Deseas ver los logs en tiempo real? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        docker-compose logs -f
+    fi
 else
-    echo "❌ Error al iniciar los servicios"
+    error "❌ El despliegue falló. Verificando logs..."
     docker-compose logs
     exit 1
 fi
 
-echo "🎉 Despliegue completado exitosamente!"
+log "🎉 Beauty Store desplegado exitosamente!"
