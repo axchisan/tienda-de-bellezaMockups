@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: beauty-store-app
     restart: unless-stopped
-    ports:
-      - "80:3000" # Mapea el puerto 80 del host al puerto 3000 del contenedor
+    expose:
+      - "3000" # Exponer el puerto 3000 sin mapearlo a un puerto específico del host
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
