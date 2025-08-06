@@ -8,7 +8,7 @@ services:
     container_name: beauty-store-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "80:3000" # Mapea el puerto 80 del host al puerto 3000 del contenedor
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
@@ -23,24 +23,6 @@ services:
       retries: 3
       start_period: 40s
 
-  nginx:
-    image: nginx:alpine
-    container_name: beauty-store-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - beauty-store
-    networks:
-      - beauty-store-network
-
 networks:
   beauty-store-network:
     driver: bridge
-
-volumes:
-  beauty-store-data:
